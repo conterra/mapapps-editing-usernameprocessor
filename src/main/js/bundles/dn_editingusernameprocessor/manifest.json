@@ -1,0 +1,40 @@
+{
+  "Bundle-SymbolicName": "dn_editingusernameprocessor",
+  "Bundle-Version": "1.0.0-SNAPSHOT",
+  "Bundle-Name": "${bundleName}",
+  "Bundle-Description": "${bundleDescription}",
+  "Bundle-Vendor": "con terra GmbH",
+  "Bundle-Category": [
+    "sample"
+  ],
+  "Bundle-Icon": {},
+  "Bundle-License": {},
+  "Product-Name": "devnet-mapapps-editing-usernameprocessor",
+  "Require-Bundle": [
+    {
+      "name": "authentication",
+      "version": "^3.4.0"
+    },
+    {
+      "name": "editing",
+      "version": "^3.4.0"
+    }
+  ],
+  "Components": [
+    {
+      "name": "UserNameProcessor",
+      "provides": [
+        "editing.FeatureProcessor"
+      ],
+      "properties": {
+        "userNameField": "username"
+      },
+      "references": [
+        {
+          "name": "userService",
+          "providing": "ct.framework.api.UserAdmin"
+        }
+      ]
+    }
+  ]
+}

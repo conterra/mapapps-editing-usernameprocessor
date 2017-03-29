@@ -1,0 +1,159 @@
+{
+  "properties": {
+    "amdPackages": "apprt@^3.4.0"
+  },
+  "load": {
+    "bundleLocations": [
+      "localbundles",
+      "bundles"
+    ],
+    "allowedBundles": [
+      "system@^3.4.0",
+      "templatelayout@^3.4.0",
+      "map@^3.4.0",
+      "notifier@^3.4.0",
+      "toolset@^3.4.0",
+      "parametermanager@^3.4.0",
+      "featureinfo@^3.4.0",
+      "editing@^3.4.0",
+      "dn_editingusernameprocessor"
+    ]
+  },
+  "bundles": {
+    "dn_editingusernameprocessor": {
+      "UserNameProcessor": {
+        "userNameField": "description"
+      }
+    },
+    "editing": {
+      "DataformControlResolver": {
+        "dataformControlDefinitions": {
+          "operations_0": {
+            "description": [
+              {
+                "type": "textbox",
+                "disabled": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    "map": {
+      "MapModelFactory": {
+        "_configData": {
+          "maps": [
+            {
+              "baseLayer": [
+                {
+                  "id": "streets",
+                  "title": "Streets",
+                  "service": "streets",
+                  "category": {
+                    "title": "streets",
+                    "description": "",
+                    "imgUrl": ""
+                  },
+                  "children": []
+                }
+              ],
+              "operationalLayer": [
+                {
+                  "title": "Operations",
+                  "enabled": true,
+                  "service": "operations_service",
+                  "category": {
+                    "title": "Operations",
+                    "description": "This is a sample service hosted by ESRI, powered by ArcGIS Server. ESRI reserves the right to change or remove this service at any time and without notice.",
+                    "imgUrl": ""
+                  },
+                  "children": [
+                    {
+                      "id": "operations_0",
+                      "layer": "0",
+                      "enabled": true
+                    }
+                  ],
+                  "id": "operations",
+                  "options": {
+                    "editable": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "MapState": {
+        "initialExtent": {
+          "xmin": 600000,
+          "ymin": 5800000,
+          "xmax": 1700000,
+          "ymax": 7600000,
+          "spatialReference": {
+            "wkid": 3857
+          }
+        }
+      },
+      "MappingResourceRegistryFactory": {
+        "_knownServices": {
+          "services": [
+            {
+              "id": "streets",
+              "type": "AGS_TILED",
+              "url": "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
+            },
+            {
+              "id": "operations_service",
+              "url": "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer",
+              "type": "AGS_FEATURE",
+              "title": "Operations",
+              "description": "This is a sample service hosted by ESRI, powered by ArcGIS Server. ESRI reserves the right to change or remove this service at any time and without notice.",
+              "layers": [
+                {
+                  "id": "0",
+                  "title": "Incident Points"
+                },
+                {
+                  "id": "1",
+                  "title": "Incident Lines"
+                },
+                {
+                  "id": "2",
+                  "title": "Incident Areas"
+                }
+              ],
+              "options": {}
+            }
+          ]
+        }
+      }
+    },
+    "toolset": {
+      "ToolsetManager": {
+        "toolsets": [
+          {
+            "id": "toolset",
+            "title": "Tools",
+            "tooltip": "Tools",
+            "container": "map",
+            "cssClass": "noTitleBarAndWindowTools",
+            "windowType": "fixed",
+            "max_horizontal": 1,
+            "position": {
+              "rel_l": 20,
+              "rel_t": 20
+            },
+            "window": {
+              "closable": false
+            },
+            "tools": [
+              "editDefaultCreateFeatureTool",
+              "editFeatureTool"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
