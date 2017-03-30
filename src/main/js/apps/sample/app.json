@@ -1,5 +1,6 @@
 {
   "properties": {
+    "title": "Editing - UserNameProcessor Sample",
     "amdPackages": "apprt@^3.4.0"
   },
   "load": {
@@ -15,9 +16,13 @@
       "toolset@^3.4.0",
       "parametermanager@^3.4.0",
       "featureinfo@^3.4.0",
+      "contentviewer@^3.4.0",
+      "banner@^3.4.0",
       "editing@^3.4.0",
       "dn_editingusernameprocessor"
-    ]
+    ],
+    "require" : ["${app}.app"],
+    "i18n": ["bundle"]
   },
   "bundles": {
     "dn_editingusernameprocessor": {
@@ -37,6 +42,33 @@
             ]
           }
         }
+      }
+    },
+    "banner": {
+      "BannerWidget": {
+        "label": "Developer Network",
+        "image": "https://www.conterra.de/~/media/conterra/images/site_logos/conterra-logo.ashx",
+        "imagePosition": "above",
+        "link": "http://developernetwork.conterra.de"
+      }
+    },
+    "contentviewer": {
+      "StaticContent": {
+        "items": [
+          {
+            "title": "${contentviewer.title}",
+            "dndContainerName": "map",
+            "window": {
+              "marginBox": {
+                "w": 240,
+                "h": 180,
+                "b": 100,
+                "l": 20
+              }
+            },
+            "message": "<p>${contentviewer.content}</p><p>${contentviewer.user}</p><p>${contentviewer.pw}</p>"
+          }
+        ]
       }
     },
     "map": {
@@ -149,7 +181,8 @@
             },
             "tools": [
               "editDefaultCreateFeatureTool",
-              "editFeatureTool"
+              "editFeatureTool",
+              "*CustomInfoTool"
             ]
           }
         ]
