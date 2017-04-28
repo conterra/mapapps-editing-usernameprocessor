@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 define({
-    contentviewer: {
+    custominfo: {
         title: "Information",
-        content: "Bitte nutzen Sie folgende Login-Daten:",
+        content1: "Diese App zeigt die Funktion des Editing - UserNameProcessor Bundles, welches einen FeatureProcessor registriert, der dem Editing Bundle den aktuellen Benutzernamen zur Verf\u00fcgung stellt.",
+        content2: "Bitte nutzen Sie folgende Login-Daten:",
+        content3: "Bitte erstellen sie ein neues Geoobjekt \u00fcber den oberen linken Button. Nachdem Sie dieses gespeichert haben wird der Benutzername automatisch zum Descpition Attribut des Features hinzugef\u00fcgt.",
         user: "User: Schmidt",
         pw: "Passwort: conterra"
     }

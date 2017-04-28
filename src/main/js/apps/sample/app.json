@@ -16,13 +16,17 @@
       "toolset@^3.4.0",
       "parametermanager@^3.4.0",
       "featureinfo@^3.4.0",
-      "contentviewer@^3.4.0",
+      "custominfo@^3.4.0",
       "banner@^3.4.0",
       "editing@^3.4.0",
       "dn_editingusernameprocessor"
     ],
-    "require" : ["${app}.app"],
-    "i18n": ["bundle"]
+    "require": [
+      "${app}.app"
+    ],
+    "i18n": [
+      "bundle"
+    ]
   },
   "bundles": {
     "dn_editingusernameprocessor": {
@@ -52,24 +56,35 @@
         "link": "http://developernetwork.conterra.de"
       }
     },
-    "contentviewer": {
-      "StaticContent": {
-        "items": [
-          {
-            "title": "${contentviewer.title}",
-            "dndContainerName": "map",
+    "custominfo": {
+      "CustomInfoToggleTool": [
+        {
+          "id": "customInfoTool",
+          "activateOnStartup": true,
+          "title": "${custominfo.title}",
+          "tooltip": "${custominfo.title}",
+          "iconClass": "icon-custom-info-info",
+          "toolClass": "ctInfo",
+          "togglable": true,
+          "widgetSettings": {
+            "content": "<p>${custominfo.content1}</p><p>${custominfo.content2}</p><p>${custominfo.user}</p><p>${custominfo.pw}</p><p>${custominfo.content3}</p>",
             "window": {
               "marginBox": {
-                "w": 240,
-                "h": 180,
-                "b": 100,
-                "l": 20
-              }
-            },
-            "message": "<p>${contentviewer.content}</p><p>${contentviewer.user}</p><p>${contentviewer.pw}</p>"
+                "w": 300,
+                "h": 300,
+                "l": 25,
+                "b": 70
+              },
+              "title": "${custominfo.title}",
+              "draggable": true,
+              "closable": true,
+              "modal": false,
+              "maximizable": false,
+              "resizable": false
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     "map": {
       "MapModelFactory": {

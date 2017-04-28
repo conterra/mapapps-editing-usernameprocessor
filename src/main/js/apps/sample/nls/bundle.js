@@ -15,9 +15,11 @@
  */
 define({
     root: {
-        contentviewer: {
+        custominfo: {
             title: "Information",
-            content: "Please use this login data:",
+            content1: "This app shows the funtionality of the Editing - UserNameProcessor bundle which registers a FeatureProcessor that provides the current user name to the editing bundle.",
+            content2: "Please use this login data:",
+            content3: "Please click on the setFeature Button in the upper left corner to set and save a feature. After saving the username gets automatically added to the feature info when clicking on the set feature button.",
             user: "User: Schmidt",
             pw: "Password: conterra"
         }
