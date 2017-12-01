@@ -15,8 +15,9 @@
  */
 define([
     "dojo/_base/declare",
+    "dojo/_base/array",
     "ct/Exception"
-], function (declare, Exception) {
+], function (declare, d_array, Exception) {
     return declare([], {
         process: function (context, nextProcessor) {
             var properties = this._properties || {};
@@ -28,7 +29,12 @@ define([
                 throw Exception.illegalStateError("UserNameProcessor: User not authenticated!");
             }
             var user = authentication.getUser();
-            var username = (user.get("givenname") + " " + user.get("sn")).trim();
+            var username = "";
+            d_array.forEach(properties.usedNameAttributes, function (nameAttribute) {
+                username += user.get(nameAttribute);
+                username += " ";
+            });
+            username = username.trim();
             if (username.length === 0) {
                 username = user.getName();
             }

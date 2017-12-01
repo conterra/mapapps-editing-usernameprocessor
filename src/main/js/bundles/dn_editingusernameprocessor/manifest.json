@@ -27,7 +27,8 @@
         "editing.FeatureProcessor"
       ],
       "properties": {
-        "userNameField": "username"
+        "userNameField": "username",
+        "usedNameAttributes": ["givenname", "sn"]
       },
       "references": [
         {

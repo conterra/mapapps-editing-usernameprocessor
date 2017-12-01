@@ -31,7 +31,8 @@
   "bundles": {
     "dn_editingusernameprocessor": {
       "UserNameProcessor": {
-        "userNameField": "description"
+        "userNameField": "description",
+        "usedNameAttributes": ["givenname", "sn"]
       }
     },
     "editing": {

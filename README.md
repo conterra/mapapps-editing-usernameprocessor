@@ -15,7 +15,10 @@ Installation Guide
 "dn_editingusernameprocessor": {
   "UserNameProcessor": {
     // define the username field
-    "userNameField": "username"
+    "userNameField": "username",
+    // select the attributes that make up the username
+    // values: city, country, gender, givenname, loginName, mail, name, phonenumber, sn, street
+    "usedNameAttributes": ["givenname", "sn"]
   }
 }
 ```
