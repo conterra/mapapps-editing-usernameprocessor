@@ -505,11 +505,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- dojo custom build parameters -->
         <js.build.outputPath>${project.build.directory}/${project.artifactId}/js</js.build.outputPath>
+        <netbeans.hint.jdkPlatform>JDK_1.7</netbeans.hint.jdkPlatform>
         <!-- mapapps.version -->
-        <mapapps.version>3.7.0</mapapps.version>
+        <mapapps.version>3.9.0</mapapps.version>
         <!-- java lib versions -->
-        <ct.jsregistry.version>1.0.25</ct.jsregistry.version>
-        <ct.jsrt-test.version>1.0.8</ct.jsrt-test.version>
+        <ct.jsregistry.version>1.1.2</ct.jsregistry.version>
+        <ct.jsrt-test.version>1.0.9</ct.jsrt-test.version>
 
         <!-- the default app, replaced in the *.html files to switch app names-->
         <default.app.name>sample</default.app.name>
@@ -526,16 +527,16 @@
     <profiles>
         <profile>
             <id>run-js-tests</id>
-            <!-- 
+            <!--
                 Execute:
-                
-                mvn package -P run-js-tests -Dmapapps.remote.base=... 
+
+                mvn package -P run-js-tests -Dmapapps.remote.base=...
             -->
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>                        
+                        <artifactId>build-helper-maven-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>reserve-jetty-port</id>
@@ -643,14 +644,14 @@
                 <plugins>
                     <plugin>
                         <groupId>de.jutzig</groupId>
-                        <artifactId>github-release-plugin</artifactId>                        
+                        <artifactId>github-release-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>github-upload</id>
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>release</goal>
-                                </goals>                                
+                                </goals>
                                 <configuration>
                                     <tag>${project.version}</tag>
                                     <artifact>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifact>
@@ -670,7 +671,7 @@
                         </executions>
                     </plugin>
                 </plugins>
-            </build>            
+            </build>
         </profile>
         <profile>
             <id>write-release-versions</id>
