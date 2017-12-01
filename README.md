@@ -3,7 +3,7 @@ This bundle registers a FeatureProcessor that provides the current user name to 
 
 Sample App
 ------------------
-http://www.mapapps.de/mapapps/resources/apps/downloads_editing_usernameprocessor/index.html
+https://demos.conterra.de/mapapps/resources/apps/downloads_editing_usernameprocessor/index.html
 
 Installation Guide
 ------------------
@@ -24,7 +24,7 @@ Installation Guide
 ```
 
 More information about the FeatureProcessor:
-https://developernetwork.conterra.de/en/documentation/mapapps/37/developers-documentation/editing
+https://developernetwork.conterra.de/en/documentation/mapapps/39/developers-documentation/editing
 
 Development Guide
 ------------------
