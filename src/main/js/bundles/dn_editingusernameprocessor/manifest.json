@@ -10,7 +10,7 @@
     "components": [
         {
             "name": "Config",
-            "impl": "./UserNameInterceptor",
+            "impl": "./UsernameInterceptor",
             "provides": "editing.EditorInterceptor",
             "properties": {
                 "usernameField": "",
