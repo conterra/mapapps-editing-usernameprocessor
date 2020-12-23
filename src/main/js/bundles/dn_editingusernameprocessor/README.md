@@ -11,8 +11,8 @@ Simply add the bundle "dn_editingusernameprocessor" to your app.
 ```json
 "dn_editingusernameprocessor": {
     "Config": {
-        "userNameField": "description",
-        "usedNameAttributes": [
+        "usernameField": "description",
+        "usernameAttributes": [
             "givenname",
             "sn"
         ]
@@ -22,5 +22,5 @@ Simply add the bundle "dn_editingusernameprocessor" to your app.
 
 | Property                       | Type               | Possible Values                    | Default                              | Description                                         |
 |--------------------------------|--------------------|------------------------------------|--------------------------------------|-----------------------------------------------------|
-| userNameField                  | String             |                                    | ```""```                             | Define the username field.                          |
-| usedNameAttributes             | Array              |                                    | ```["givenname", "sn"]```            | Configure the attributes that make up the username. |
+| usernameField                  | String             |                                    | ```""```                             | Define the username field.                          |
+| usernameAttributes             | Array              |                                    | ```["givenname", "sn"]```            | Configure the attributes that make up the username. |

@@ -13,8 +13,8 @@
             "impl": "./UserNameInterceptor",
             "provides": "editing.EditorInterceptor",
             "properties": {
-                "userNameField": "",
-                "usedNameAttributes": [
+                "usernameField": "",
+                "usernameAttributes": [
                     "givenname",
                     "sn"
                 ]

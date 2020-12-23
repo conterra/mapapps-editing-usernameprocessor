@@ -21,11 +21,11 @@ export default class UserNameInterceptor {
     interceptEditor(editorWidget) {
         const featureFormViewModel = editorWidget.viewModel.featureFormViewModel;
         featureFormViewModel.watch("feature", (feature) => {
-            const userName = this.getUserName();
-            if (!feature || !userName) {
+            const username = this.getUserName();
+            if (!feature || !username) {
                 return;
             }
-            featureFormViewModel.setValue(this._properties.userNameField, userName);
+            featureFormViewModel.setValue(this._properties.usernameField, username);
         });
     }
 
