@@ -4,7 +4,7 @@ This bundle registers an EditorInterceptor that provides the current username to
 
 ## Sample App
 
-https://demos.conterra.de/mapapps/resources/apps/downloads_printingenhanced/index.html
+https://demos.conterra.de/mapapps/resources/apps/downloads_editing_usernameprocessor4/index.html
 
 ## Installation Guide
 

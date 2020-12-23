@@ -30,7 +30,6 @@ export default class UserNameInterceptor {
     }
 
     getUserName() {
-        return "Peter"
         const authentication = this._userService.getAuthentication();
         if (!authentication.isAuthenticated()) {
             console.log("User not authenticated!");
