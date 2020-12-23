@@ -1,41 +1,30 @@
 {
-  "Bundle-SymbolicName": "dn_editingusernameprocessor",
-  "Bundle-Version": "1.1.1-SNAPSHOT",
-  "Bundle-Name": "${bundleName}",
-  "Bundle-Description": "${bundleDescription}",
-  "Bundle-Vendor": "con terra GmbH",
-  "Bundle-Category": [
-    "sample"
-  ],
-  "Bundle-Icon": {},
-  "Bundle-License": {},
-  "Product-Name": "devnet-mapapps-editing-usernameprocessor",
-  "Require-Bundle": [
-    {
-      "name": "authentication",
-      "version": "^3.4.0"
+    "name": "dn_editingusernameprocessor",
+    "version": "2.0.0-SNAPSHOT",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "dependencies": {
+        "editing": "^4.9.0",
+        "authentication": "^4.9.0"
     },
-    {
-      "name": "editing",
-      "version": "^3.4.0"
-    }
-  ],
-  "Components": [
-    {
-      "name": "UserNameProcessor",
-      "provides": [
-        "editing.FeatureProcessor"
-      ],
-      "properties": {
-        "userNameField": "username",
-        "usedNameAttributes": ["givenname", "sn"]
-      },
-      "references": [
+    "components": [
         {
-          "name": "userService",
-          "providing": "ct.framework.api.UserAdmin"
+            "name": "Config",
+            "impl": "./UserNameInterceptor",
+            "provides": "editing.EditorInterceptor",
+            "properties": {
+                "userNameField": "",
+                "usedNameAttributes": [
+                    "givenname",
+                    "sn"
+                ]
+            },
+            "references": [
+                {
+                    "name": "_userService",
+                    "providing": "ct.framework.api.UserAdmin"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

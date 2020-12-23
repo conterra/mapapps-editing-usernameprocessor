@@ -1,41 +1,32 @@
-# Editing-UserNameProcessor Bundle
-This bundle registers a FeatureProcessor that provides the current user name to the editing bundle.
+# mapapps-editing-usernameprocessor
 
-Sample App
-------------------
-https://demos.conterra.de/mapapps/resources/apps/downloads_editing_usernameprocessor/index.html
+This bundle registers an EditorInterceptor that provides the current username to the editing bundle.
 
-Installation Guide
-------------------
-**Requirement: map.apps 3.4.0**
+## Sample App
 
-**The user needs to be logged in to save the edited features!**
+https://demos.conterra.de/mapapps/resources/apps/downloads_printingenhanced/index.html
 
-```
-"dn_editingusernameprocessor": {
-  "UserNameProcessor": {
-    // define the username field
-    "userNameField": "username",
-    // select the attributes that make up the username
-    // values: city, country, gender, givenname, loginName, mail, name, phonenumber, sn, street
-    "usedNameAttributes": ["givenname", "sn"]
-  }
-}
-```
+## Installation Guide
 
-More information about the FeatureProcessor:
-https://developernetwork.conterra.de/en/documentation/mapapps/39/developers-documentation/editing
+**Requirements:**
 
-Development Guide
-------------------
+- map.apps 4.9.0 or later
+
+Simply add the bundle "dn_editingusernameprocessor" to your app.
+
+[dn_editingusernameprocessor Documentation](https://github.com/conterra/mapapps-editing-usernameprocessor/tree/master/src/main/js/bundles/dn_editingusernameprocessor)
+
+## Development Guide
+
 ### Define the mapapps remote base
+
 Before you can run the project you have to define the mapapps.remote.base property in the pom.xml-file:
 `<mapapps.remote.base>http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%</mapapps.remote.base>`
 
-##### Other methods to to define the mapapps.remote.base property.
-1. Goal parameters
-`mvn install -Dmapapps.remote.base=http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%`
+### Other methods to to define the mapapps.remote.base property.
 
-2. Build properties
-Change the mapapps.remote.base in the build.properties file and run:
-`mvn install -Denv=dev -Dlocal.configfile=%ABSOLUTEPATHTOPROJECTROOT%/build.properties`
+1. Goal parameters
+   `mvn install -Dmapapps.remote.base=http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%`
+
+2. Build properties Change the mapapps.remote.base in the build.properties file and run:
+   `mvn install -Denv=dev -Dlocal.configfile=%ABSOLUTEPATHTOPROJECTROOT%/build.properties`
