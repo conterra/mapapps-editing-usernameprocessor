@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import async from "apprt-core/async";
+
 export default class UsernameInterceptor {
 
     interceptConfig(config) {
@@ -25,7 +27,12 @@ export default class UsernameInterceptor {
             if (!feature || !username) {
                 return;
             }
-            featureFormViewModel.setValue(this._properties.usernameField, username);
+            async(() => {
+                featureFormViewModel.setValue(this._properties.usernameField, username);
+                //feature.setAttribute(this._properties.usernameField, username);
+                //featureFormViewModel.submit();
+                //featureFormViewModel.emit("value-change");
+            }, 500);
         });
     }
 
