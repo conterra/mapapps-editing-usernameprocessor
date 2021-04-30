@@ -35,7 +35,7 @@
     "bundles": {
         "dn_editingusernameprocessor": {
             "Config": {
-                "usernameField": "description",
+                "usernameField": "kommentar",
                 "usernameAttributes": [
                     "givenname",
                     "sn"
@@ -102,7 +102,47 @@
                         {
                             "id": "editing",
                             "type": "AGS_FEATURE",
-                            "url": "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0"
+                            "url": "https://services.conterra.de/arcgis/rest/services/mapapps/stoerung/FeatureServer/0",
+                            "formTemplate": {
+                                "title": "Bürger melden Störungen",
+                                "description": "Helfen Sie dabei, unsere Stadt schön zu halten!",
+                                "elements": [
+                                    {
+                                        "type": "group",
+                                        "label": "Art der Störung",
+                                        "description": "Im ersten Schritt, geben Sie bitte die Art der Störung ein.",
+                                        "elements": [
+                                            {
+                                                "type": "field",
+                                                "fieldName": "art",
+                                                "label": "Was möchten Sie melden?"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "group",
+                                        "label": "Details zur Erfassung",
+                                        "description": "Geben Sie in diesem Schritt optional weitere Informationen ein.",
+                                        "elements": [
+                                            {
+                                                "type": "field",
+                                                "fieldName": "details",
+                                                "label": "Details zur Meldung"
+                                            },
+                                            {
+                                                "type": "field",
+                                                "fieldName": "zeitpunkt",
+                                                "label": "Zeitpunkt der Meldung"
+                                            },
+                                            {
+                                                "type": "field",
+                                                "fieldName": "kommentar",
+                                                "editable": false
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
                         }
                     ],
                     "ground": {
