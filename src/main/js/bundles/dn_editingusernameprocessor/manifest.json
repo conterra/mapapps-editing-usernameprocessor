@@ -3,6 +3,8 @@
     "version": "2.0.0-SNAPSHOT",
     "title": "${bundleName}",
     "description": "${bundleDescription}",
+    "vendor": "con terra GmbH",
+    "productName": "devnet-mapapps-editing-usernameprocessor",
     "dependencies": {
         "editing": "^4.9.0",
         "authentication": "^4.9.0"
