@@ -35,6 +35,7 @@
     "bundles": {
         "dn_editingusernameprocessor": {
             "Config": {
+                "creatorField": "",
                 "usernameField": "kommentar",
                 "usernameAttributes": [
                     "givenname",

@@ -17,18 +17,36 @@ import async from "apprt-core/async";
 
 export default class UsernameInterceptor {
 
+    #watcher = null;
+
     interceptConfig(config) {
     }
 
     interceptEditor(editorWidget) {
-        const featureFormViewModel = editorWidget.viewModel.featureFormViewModel;
-        featureFormViewModel.watch("feature", (feature) => {
+        this.#watcher?.remove();
+        const viewModel = editorWidget.viewModel;
+        const featureFormViewModel = viewModel.featureFormViewModel;
+        const properties = this._properties;
+        this.#watcher = featureFormViewModel.watch("feature", (feature) => {
+            const workFlowType = viewModel.activeWorkflow.type;
             const username = this.getUserName();
             if (!feature || !username) {
                 return;
             }
             async(() => {
-                featureFormViewModel.setValue(this._properties.usernameField, username);
+                if (properties.creatorField && properties.creatorField !== "") {
+                    switch (workFlowType) {
+                        case "create":
+                            featureFormViewModel.setValue(properties.creatorField, username);
+                            break;
+                        case "update":
+                            featureFormViewModel.setValue(properties.usernameField, username);
+                            break;
+                    }
+                } else {
+                    featureFormViewModel.setValue(properties.usernameField, username);
+                }
+
                 //feature.setAttribute(this._properties.usernameField, username);
                 //featureFormViewModel.submit();
                 //featureFormViewModel.emit("value-change");

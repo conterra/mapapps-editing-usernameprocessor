@@ -16,6 +16,7 @@
             "provides": "editing.EditorInterceptor",
             "properties": {
                 "usernameField": "",
+                "creatorField": "",
                 "usernameAttributes": [
                     "givenname",
                     "sn"
