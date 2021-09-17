@@ -1,10 +1,6 @@
 # Editing-UserNameProcessor Bundle
 This bundle registers a FeatureProcessor that provides the current user name to the editing bundle.
 
-Sample App
-------------------
-https://demos.conterra.de/mapapps/resources/apps/downloads_editing_usernameprocessor/index.html
-
 Installation Guide
 ------------------
 **Requirement: map.apps 3.4.0**
