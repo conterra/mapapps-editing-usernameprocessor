@@ -144,7 +144,7 @@
         },
         "templates": {
             "TemplateModel": {
-                "_templates": [
+                "widgets": [
                     {
                         "name": "seasons",
                         "widgets": [
