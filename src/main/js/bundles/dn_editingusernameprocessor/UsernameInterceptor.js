@@ -57,7 +57,7 @@ export default class UsernameInterceptor {
     getUserName() {
         const authentication = this._userService.getAuthentication();
         if (!authentication.isAuthenticated()) {
-            console.log("User not authenticated!");
+            console.info("User not authenticated!");
             return;
         }
         const user = authentication.getUser();
