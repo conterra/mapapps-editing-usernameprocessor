@@ -39,6 +39,9 @@ export default class UsernameInterceptor {
                         case "create":
                             featureFormViewModel.setValue(properties.creatorField, username);
                             break;
+                        case "create-features":
+                            featureFormViewModel.setValue(properties.creatorField, username);
+                            break;
                         case "update":
                             featureFormViewModel.setValue(properties.usernameField, username);
                             break;
