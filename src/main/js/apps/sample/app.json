@@ -23,10 +23,8 @@
             "basemaptoggler",
             "mapnavigation",
             "popups-default",
-            "dn_editingusernameprocessor"
-        ],
-        "require": [
-            "${app}.app"
+            "dn_editingusernameprocessor",
+            "console"
         ],
         "i18n": [
             "bundle"

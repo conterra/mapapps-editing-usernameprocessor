@@ -16,17 +16,19 @@ Simply add the bundle "dn_editingusernameprocessor" to your app.
 
 [dn_editingusernameprocessor Documentation](https://github.com/conterra/mapapps-editing-usernameprocessor/tree/master/src/main/js/bundles/dn_editingusernameprocessor)
 
-## Development Guide
+## Quick start
 
-### Define the mapapps remote base
+Clone this project and ensure that you have all required dependencies installed correctly (see [Documentation](https://docs.conterra.de/en/mapapps/latest/developersguide/getting-started/set-up-development-environment.html)).
 
-Before you can run the project you have to define the mapapps.remote.base property in the pom.xml-file:
-`<mapapps.remote.base>http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%</mapapps.remote.base>`
+Then run the following commands from the project root directory to start a local development server:
 
-### Other methods to to define the mapapps.remote.base property.
+```bash
+# install all required node modules
+$ mvn initialize
 
-1. Goal parameters
-   `mvn install -Dmapapps.remote.base=http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%`
+# start dev server
+$ mvn compile -Denv=dev -Pinclude-mapapps-deps
 
-2. Build properties Change the mapapps.remote.base in the build.properties file and run:
-   `mvn install -Denv=dev -Dlocal.configfile=%ABSOLUTEPATHTOPROJECTROOT%/build.properties`
+# run unit tests
+$ mvn test -P run-js-tests,include-mapapps-deps
+```
