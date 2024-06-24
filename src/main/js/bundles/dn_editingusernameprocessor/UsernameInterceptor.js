@@ -14,46 +14,52 @@
  * limitations under the License.
  */
 import async from "apprt-core/async";
+import UserServiceMock from "./UserServiceMock";
 
 export default class UsernameInterceptor {
 
-    #watcher = null;
-
-    interceptConfig(config) {
-    }
+    #featureWatcher = null;
+    #featureFormViewModelWatcher = null;
+    _userService = new UserServiceMock();  // This will be replaced with the UserService from the framework
 
     interceptEditor(editorWidget) {
-        this.#watcher?.remove();
         const viewModel = editorWidget.viewModel;
-        const featureFormViewModel = viewModel.featureFormViewModel;
-        const properties = this._properties;
-        this.#watcher = featureFormViewModel.watch("feature", (feature) => {
-            const workFlowType = viewModel.activeWorkflow.type;
-            const username = this.getUserName();
-            if (!feature || !username) {
+        this.#featureFormViewModelWatcher?.remove();
+        this.#featureFormViewModelWatcher = viewModel.watch("featureFormViewModel", () => {
+            const featureFormViewModel = viewModel.featureFormViewModel;
+            if (!featureFormViewModel) {
                 return;
             }
-            async(() => {
-                if (properties.creatorField && properties.creatorField !== "") {
-                    switch (workFlowType) {
-                        case "create":
-                            featureFormViewModel.setValue(properties.creatorField, username);
-                            break;
-                        case "create-features":
-                            featureFormViewModel.setValue(properties.creatorField, username);
-                            break;
-                        case "update":
-                            featureFormViewModel.setValue(properties.usernameField, username);
-                            break;
-                    }
-                } else {
-                    featureFormViewModel.setValue(properties.usernameField, username);
+            const properties = this._properties;
+            this.#featureWatcher?.remove();
+            this.#featureWatcher = featureFormViewModel.watch("feature", (feature) => {
+                const workFlowType = viewModel.activeWorkflow.type;
+                const username = this.getUserName();
+                if (!feature || !username) {
+                    return;
                 }
+                async(() => {
+                    if (properties.creatorField && properties.creatorField !== "") {
+                        switch (workFlowType) {
+                            case "create":
+                                featureFormViewModel.setValue(properties.creatorField, username);
+                                break;
+                            case "create-features":
+                                featureFormViewModel.setValue(properties.creatorField, username);
+                                break;
+                            case "update":
+                                featureFormViewModel.setValue(properties.usernameField, username);
+                                break;
+                        }
+                    } else {
+                        featureFormViewModel.setValue(properties.usernameField, username);
+                    }
 
-                //feature.setAttribute(this._properties.usernameField, username);
-                //featureFormViewModel.submit();
-                //featureFormViewModel.emit("value-change");
-            }, 500);
+                    //feature.setAttribute(this._properties.usernameField, username);
+                    //featureFormViewModel.submit();
+                    //featureFormViewModel.emit("value-change");
+                }, 500);
+            });
         });
     }
 
