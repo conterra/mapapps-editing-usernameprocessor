@@ -21,18 +21,17 @@ export default class UsernameInterceptor {
     _properties = {};
 
     async interceptEditor(editorWidget) {
-        return new Promise(async resolve => {
-            const properties = this._properties;
-            const viewModel = editorWidget.viewModel;
-            const featureFormViewModel = await this.#getFeatureFormViewModelFromViewModel(viewModel);
-            const feature = await this.#getFeatureFromFeatureFormViewModel(featureFormViewModel);
+        const properties = this._properties;
+        const viewModel = editorWidget.viewModel;
+        const featureFormViewModel = await this.#getFeatureFormViewModelFromViewModel(viewModel);
+        const feature = await this.#getFeatureFromFeatureFormViewModel(featureFormViewModel);
 
-            const workFlowType = viewModel.activeWorkflow.type;
-            const username = this.getUserName();
-            if (!feature || !username) {
-                resolve();
-                return;
-            }
+        const workFlowType = viewModel.activeWorkflow.type;
+        const username = this.getUserName();
+        if (!feature || !username) {
+            return;
+        }
+        return new Promise(resolve => {
             async(() => {
                 if (properties.creatorField && properties.creatorField !== "") {
                     switch (workFlowType) {

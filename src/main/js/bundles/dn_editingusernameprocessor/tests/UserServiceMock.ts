@@ -14,19 +14,21 @@
 /// limitations under the License.
 ///
 
+import {Authentication, User} from "apprt/api";
+
 /**
  * This class is used to test the UserNameInterceptor class without having to set up security on the local dev server.
  */
 export default class UserServiceMock {
-    getAuthentication() {
+    getAuthentication(): Partial<Authentication> {
         return {
             isAuthenticated: () => true,
-            getUser: () => new User()
+            getUser: () => new UserMock()
         };
     }
 }
 
-class User {
+class UserMock implements User {
     get(attrName: string): string {
         if (attrName === "givenname") {
             return "Bob";
@@ -40,4 +42,6 @@ class User {
     getName(): string {
         return "testUserName";
     }
+
+    [key: string]: unknown;
 }
