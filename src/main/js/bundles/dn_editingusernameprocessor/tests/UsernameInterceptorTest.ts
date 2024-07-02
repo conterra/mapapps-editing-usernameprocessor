@@ -146,8 +146,6 @@ function initUsernameInterceptor(properties: Partial<UserNameInterceptorProperti
     return usernameInterceptor;
 }
 
-
-
 interface TestCase {
     workflowType: WorkflowType;
     initializationDelay?: number;
