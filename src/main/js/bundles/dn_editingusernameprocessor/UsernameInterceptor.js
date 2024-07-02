@@ -16,7 +16,6 @@
 import async from "apprt-core/async";
 
 export default class UsernameInterceptor {
-
     _userService;
     _properties = {};
 

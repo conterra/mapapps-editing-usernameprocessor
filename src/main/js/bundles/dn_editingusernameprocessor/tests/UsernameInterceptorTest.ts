@@ -16,11 +16,11 @@
 
 import UsernameInterceptor from "../UsernameInterceptor";
 import UserServiceMock from "./UserServiceMock";
-import {Mutable, properties} from "apprt-core/Mutable";
+import Accessor from "esri/core/Accessor";
 import { assert } from "chai";
 
 describe(module.id, () => {
-    [
+    ([
         {
             workflowType: "create",
             properties: {
@@ -65,7 +65,7 @@ describe(module.id, () => {
             },
             message: "If the 'creatorField' property is not set, the 'usernameField' should be filled with the user name"
         }
-    ].forEach(testCase => {
+    ] as TestCase[]).forEach(testCase => {
         it(testCase.message, async () => {
             const usernameInterceptor = initUsernameInterceptor(testCase.properties);
             const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType);
@@ -73,7 +73,65 @@ describe(module.id, () => {
             await usernameInterceptor.interceptEditor(editorWidget);
 
             const featureFormViewModelMock = editorWidget.viewModel.featureFormViewModel;
-            assert.equal(featureFormViewModelMock.hash.get(testCase.expected.fieldName), testCase.expected.value);
+            assert.equal(featureFormViewModelMock?.hash.get(testCase.expected.fieldName), testCase.expected.value);
+        });
+    });
+
+    // TODO Test when featureFormViewModel and feature are not instantly available
+    ([
+        {
+            workflowType: "create",
+            properties: {
+                creatorField: "creator"
+            },
+            expected: {
+                fieldName: "creator",
+                value: "Bob Foo"
+            },
+            message: "If workflow type is 'create' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
+        },
+        {
+            workflowType: "create-features",
+            properties: {
+                creatorField: "creator"
+            },
+            expected: {
+                fieldName: "creator",
+                value: "Bob Foo"
+            },
+            message: "If workflow type is 'create-features' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
+        },
+        {
+            workflowType: "update",
+            properties: {
+                creatorField: "creator",
+                usernameField: "Benutzer"
+            },
+            expected: {
+                fieldName: "Benutzer",
+                value: "Bob Foo"
+            },
+            message: "If workflow type is 'update' and the 'creatorField' property is set, the 'usernameField' should be filled with the user name"
+        },
+        {
+            properties: {
+                usernameField: "Benutzer"
+            },
+            expected: {
+                fieldName: "Benutzer",
+                value: "Bob Foo"
+            },
+            message: "If the 'creatorField' property is not set, the 'usernameField' should be filled with the user name"
+        }
+    ] as TestCase[]).forEach(testCase => {
+        it(testCase.message, async () => {
+            const usernameInterceptor = initUsernameInterceptor(testCase.properties);
+            const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType, 40);
+
+            await usernameInterceptor.interceptEditor(editorWidget);
+
+            const featureFormViewModelMock = editorWidget.viewModel.featureFormViewModel;
+            assert.equal(featureFormViewModelMock?.hash.get(testCase.expected.fieldName), testCase.expected.value);
         });
     });
 });
@@ -93,10 +151,16 @@ function initUsernameInterceptor(properties: Partial<UserNameInterceptorProperti
     return usernameInterceptor;
 }
 
-function mockEditorWidget(testWorkflowType: WorkflowType) {
-    return {
-        viewModel: new ViewModelMock(testWorkflowType)
+
+
+interface TestCase {
+    workflowType: WorkflowType;
+    properties: Partial<UserNameInterceptorProperties>;
+    expected: {
+        fieldName: string;
+        value: string;
     };
+    message: string;
 }
 
 interface UserNameInterceptorProperties {
@@ -105,40 +169,59 @@ interface UserNameInterceptorProperties {
     usernameAttributes: string[]
 }
 
-class ViewModelMock extends Mutable {
-    featureFormViewModel: FeatureFormViewModel;
-    activeWorkflow: ActiveWorkflow = { type: "create" };
-
-    constructor(testWorkflowType: WorkflowType) {
-        super();
-        this.featureFormViewModel = new FeatureFormViewModel();
-        this.activeWorkflow.type = testWorkflowType;
+function createFeatureFormViewModel(featureDelay: number = 0) {
+    const featureFormViewModel = new FeatureFormViewModel();
+    if (featureDelay === 0) {
+        featureFormViewModel.feature = {};
+    } else {
+        setTimeout(() => {
+            featureFormViewModel.feature = {};
+        }, featureDelay);
     }
+    return featureFormViewModel;
 }
 
-properties(ViewModelMock, {
-    featureFormViewModel: null,
-    activeWorkflow: null
-});
-
-class FeatureFormViewModel extends Mutable {
-    hash: Map<string, string>;
-    feature: any;
-
-    constructor() {
-        super();
-        this.hash = new Map<string, string>();
-        this.feature = {};
-    }
+const FeatureFormViewModel = (Accessor as any).createSubclass({
+    properties: {
+        feature: {}
+    },
 
     setValue(fieldName: string, value: string) {
+        if (!this.hash) {
+            this.hash = new Map<string, string>();
+        }
         this.hash.set(fieldName, value);
     }
+});
+
+const createViewModelMock = (testWorkflowType: WorkflowType, featureFormViewModelDelay: number = 0) => {
+    const viewModelMock = new ViewModelMock();
+    if (featureFormViewModelDelay === 0) {
+        viewModelMock.featureFormViewModel = createFeatureFormViewModel(featureFormViewModelDelay);
+    } else {
+        setTimeout(() => {
+            viewModelMock.featureFormViewModel = createFeatureFormViewModel(featureFormViewModelDelay);
+        }, featureFormViewModelDelay);
+    }
+
+    viewModelMock.activeWorkflow = {
+        type: testWorkflowType
+    };
+    return viewModelMock;
 }
 
-properties(FeatureFormViewModel, {
-    feature: null
+const ViewModelMock = (Accessor as any).createSubclass({
+    properties: {
+        featureFormViewModel: {},
+        activeWorkflow: {}
+    }
 });
+
+function mockEditorWidget(testWorkflowType: WorkflowType, initializationsDelay: number = 0) {
+    return {
+        viewModel: createViewModelMock(testWorkflowType, initializationsDelay)
+    };
+}
 
 interface ActiveWorkflow {
     type: WorkflowType;
