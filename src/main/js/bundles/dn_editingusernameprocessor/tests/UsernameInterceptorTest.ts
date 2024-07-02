@@ -64,23 +64,10 @@ describe(module.id, () => {
                 value: "Bob Foo"
             },
             message: "If the 'creatorField' property is not set, the 'usernameField' should be filled with the user name"
-        }
-    ] as TestCase[]).forEach(testCase => {
-        it(testCase.message, async () => {
-            const usernameInterceptor = initUsernameInterceptor(testCase.properties);
-            const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType);
-
-            await usernameInterceptor.interceptEditor(editorWidget);
-
-            const featureFormViewModelMock = editorWidget.viewModel.featureFormViewModel;
-            assert.equal(featureFormViewModelMock?.hash.get(testCase.expected.fieldName), testCase.expected.value);
-        });
-    });
-
-    // TODO Test when featureFormViewModel and feature are not instantly available
-    ([
+        },
         {
             workflowType: "create",
+            initializationDelay: 40,
             properties: {
                 creatorField: "creator"
             },
@@ -88,10 +75,11 @@ describe(module.id, () => {
                 fieldName: "creator",
                 value: "Bob Foo"
             },
-            message: "If workflow type is 'create' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
+            message: "With initializationDelay: If workflow type is 'create' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
         },
         {
             workflowType: "create-features",
+            initializationDelay: 40,
             properties: {
                 creatorField: "creator"
             },
@@ -99,10 +87,11 @@ describe(module.id, () => {
                 fieldName: "creator",
                 value: "Bob Foo"
             },
-            message: "If workflow type is 'create-features' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
+            message: "With initializationDelay: If workflow type is 'create-features' and the 'creatorField' property is set, the creatorField field should be filled with the user name"
         },
         {
             workflowType: "update",
+            initializationDelay: 40,
             properties: {
                 creatorField: "creator",
                 usernameField: "Benutzer"
@@ -111,9 +100,10 @@ describe(module.id, () => {
                 fieldName: "Benutzer",
                 value: "Bob Foo"
             },
-            message: "If workflow type is 'update' and the 'creatorField' property is set, the 'usernameField' should be filled with the user name"
+            message: "With initializationDelay: If workflow type is 'update' and the 'creatorField' property is set, the 'usernameField' should be filled with the user name"
         },
         {
+            initializationDelay: 40,
             properties: {
                 usernameField: "Benutzer"
             },
@@ -121,12 +111,12 @@ describe(module.id, () => {
                 fieldName: "Benutzer",
                 value: "Bob Foo"
             },
-            message: "If the 'creatorField' property is not set, the 'usernameField' should be filled with the user name"
+            message: "With initializationDelay: If the 'creatorField' property is not set, the 'usernameField' should be filled with the user name"
         }
     ] as TestCase[]).forEach(testCase => {
         it(testCase.message, async () => {
             const usernameInterceptor = initUsernameInterceptor(testCase.properties);
-            const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType, 40);
+            const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType, testCase.initializationDelay);
 
             await usernameInterceptor.interceptEditor(editorWidget);
 
@@ -155,6 +145,7 @@ function initUsernameInterceptor(properties: Partial<UserNameInterceptorProperti
 
 interface TestCase {
     workflowType: WorkflowType;
+    initializationDelay?: number;
     properties: Partial<UserNameInterceptorProperties>;
     expected: {
         fieldName: string;
@@ -217,9 +208,9 @@ const ViewModelMock = (Accessor as any).createSubclass({
     }
 });
 
-function mockEditorWidget(testWorkflowType: WorkflowType, initializationsDelay: number = 0) {
+function mockEditorWidget(testWorkflowType: WorkflowType, initializationDelay: number = 0) {
     return {
-        viewModel: createViewModelMock(testWorkflowType, initializationsDelay)
+        viewModel: createViewModelMock(testWorkflowType, initializationDelay)
     };
 }
 
