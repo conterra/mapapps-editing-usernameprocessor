@@ -118,13 +118,18 @@ describe(module.id, () => {
             const usernameInterceptor = initUsernameInterceptor(testCase.properties);
             const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType, testCase.initializationDelay);
 
-            await usernameInterceptor.interceptEditor(editorWidget);
+            usernameInterceptor.interceptEditor(editorWidget);
 
+            await later(700);
             const featureFormViewModelMock = editorWidget.viewModel.featureFormViewModel;
             assert.equal(featureFormViewModelMock?.hash.get(testCase.expected.fieldName), testCase.expected.value);
         });
     });
 });
+
+function later(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function initUsernameInterceptor(properties: Partial<UserNameInterceptorProperties> = {}) {
     const usernameInterceptor = new UsernameInterceptor();

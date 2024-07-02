@@ -19,34 +19,32 @@ export default class UsernameInterceptor {
     _userService;
     _properties = {};
 
-    async interceptEditor(editorWidget) {
+    interceptEditor(editorWidget) {
         const properties = this._properties;
         const viewModel = editorWidget.viewModel;
-        const featureFormViewModel = await this.#getFeatureFormViewModelFromViewModel(viewModel);
-        const feature = await this.#getFeatureFromFeatureFormViewModel(featureFormViewModel);
-
-        const workFlowType = viewModel.activeWorkflow.type;
-        const username = this.getUserName();
-        if (!feature || !username) {
-            return;
-        }
-        return new Promise(resolve => {
-            async(() => {
-                if (properties.creatorField && properties.creatorField !== "") {
-                    switch (workFlowType) {
-                        case "create":
-                        case "create-features":
-                            featureFormViewModel.setValue(properties.creatorField, username);
-                            break;
-                        case "update":
-                            featureFormViewModel.setValue(properties.usernameField, username);
-                            break;
-                    }
-                } else {
-                    featureFormViewModel.setValue(properties.usernameField, username);
+        this.#getFeatureFormViewModelFromViewModel(viewModel).then(featureFormViewModel => {
+            this.#getFeatureFromFeatureFormViewModel(featureFormViewModel).then(feature => {
+                const workFlowType = viewModel.activeWorkflow.type;
+                const username = this.getUserName();
+                if (!feature || !username) {
+                    return;
                 }
-                resolve();
-            }, 500);
+                async(() => {
+                    if (properties.creatorField && properties.creatorField !== "") {
+                        switch (workFlowType) {
+                            case "create":
+                            case "create-features":
+                                featureFormViewModel.setValue(properties.creatorField, username);
+                                break;
+                            case "update":
+                                featureFormViewModel.setValue(properties.usernameField, username);
+                                break;
+                        }
+                    } else {
+                        featureFormViewModel.setValue(properties.usernameField, username);
+                    }
+                }, 500);
+            });
         });
     }
 
@@ -56,8 +54,10 @@ export default class UsernameInterceptor {
         }
         return new Promise(resolve => {
             const watcher = viewModel.watch("featureFormViewModel", () => {
-                watcher.remove();
-                resolve(viewModel.featureFormViewModel);
+                if (viewModel.featureFormViewModel) {
+                    watcher.remove();
+                    resolve(viewModel.featureFormViewModel);
+                }
             });
         });
     }
@@ -68,8 +68,10 @@ export default class UsernameInterceptor {
         }
         return new Promise(resolve => {
             const watcher = featureFormViewModel.watch("feature", () => {
-                watcher.remove();
-                resolve(featureFormViewModel.feature);
+                if (featureFormViewModel.feature) {
+                    watcher.remove();
+                    resolve(featureFormViewModel.feature);
+                }
             });
         });
     }
