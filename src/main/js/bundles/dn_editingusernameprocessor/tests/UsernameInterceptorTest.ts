@@ -116,7 +116,7 @@ describe(module.id, () => {
     ] as TestCase[]).forEach(testCase => {
         it(testCase.message, async () => {
             const usernameInterceptor = initUsernameInterceptor(testCase.properties);
-            const editorWidget = mockEditorWidget(<WorkflowType>testCase.workflowType, testCase.initializationDelay);
+            const editorWidget = mockEditorWidget(testCase.workflowType, testCase.initializationDelay);
 
             usernameInterceptor.interceptEditor(editorWidget);
 
@@ -163,18 +163,6 @@ interface UserNameInterceptorProperties {
     usernameAttributes: string[]
 }
 
-function createFeatureFormViewModel(featureDelay: number = 0) {
-    const featureFormViewModel = new FeatureFormViewModel();
-    if (featureDelay === 0) {
-        featureFormViewModel.feature = {};
-    } else {
-        setTimeout(() => {
-            featureFormViewModel.feature = {};
-        }, featureDelay);
-    }
-    return featureFormViewModel;
-}
-
 const FeatureFormViewModel = (Accessor as any).createSubclass({
     properties: {
         feature: {}
@@ -188,7 +176,26 @@ const FeatureFormViewModel = (Accessor as any).createSubclass({
     }
 });
 
-const createViewModelMock = (testWorkflowType: WorkflowType, featureFormViewModelDelay: number = 0) => {
+function createFeatureFormViewModel(featureDelay = 0) {
+    const featureFormViewModel = new FeatureFormViewModel();
+    if (featureDelay === 0) {
+        featureFormViewModel.feature = {};
+    } else {
+        setTimeout(() => {
+            featureFormViewModel.feature = {};
+        }, featureDelay);
+    }
+    return featureFormViewModel;
+}
+
+const ViewModelMock = (Accessor as any).createSubclass({
+    properties: {
+        featureFormViewModel: {},
+        activeWorkflow: {}
+    }
+});
+
+const createViewModelMock = (testWorkflowType: WorkflowType, featureFormViewModelDelay = 0) => {
     const viewModelMock = new ViewModelMock();
     if (featureFormViewModelDelay === 0) {
         viewModelMock.featureFormViewModel = createFeatureFormViewModel(featureFormViewModelDelay);
@@ -202,23 +209,12 @@ const createViewModelMock = (testWorkflowType: WorkflowType, featureFormViewMode
         type: testWorkflowType
     };
     return viewModelMock;
-}
+};
 
-const ViewModelMock = (Accessor as any).createSubclass({
-    properties: {
-        featureFormViewModel: {},
-        activeWorkflow: {}
-    }
-});
-
-function mockEditorWidget(testWorkflowType: WorkflowType, initializationDelay: number = 0) {
+function mockEditorWidget(testWorkflowType: WorkflowType, initializationDelay = 0) {
     return {
         viewModel: createViewModelMock(testWorkflowType, initializationDelay)
     };
-}
-
-interface ActiveWorkflow {
-    type: WorkflowType;
 }
 
 type WorkflowType = "create" | "create-features" | "update";
