@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 con terra GmbH (info@conterra.de)
+ * Copyright (C) 2024 con terra GmbH (info@conterra.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,44 +16,63 @@
 import async from "apprt-core/async";
 
 export default class UsernameInterceptor {
-
-    #watcher = null;
-
-    interceptConfig(config) {
-    }
+    _userService;
+    _properties = {};
 
     interceptEditor(editorWidget) {
-        this.#watcher?.remove();
-        const viewModel = editorWidget.viewModel;
-        const featureFormViewModel = viewModel.featureFormViewModel;
         const properties = this._properties;
-        this.#watcher = featureFormViewModel.watch("feature", (feature) => {
-            const workFlowType = viewModel.activeWorkflow.type;
-            const username = this.getUserName();
-            if (!feature || !username) {
-                return;
-            }
-            async(() => {
-                if (properties.creatorField && properties.creatorField !== "") {
-                    switch (workFlowType) {
-                        case "create":
-                            featureFormViewModel.setValue(properties.creatorField, username);
-                            break;
-                        case "create-features":
-                            featureFormViewModel.setValue(properties.creatorField, username);
-                            break;
-                        case "update":
-                            featureFormViewModel.setValue(properties.usernameField, username);
-                            break;
-                    }
-                } else {
-                    featureFormViewModel.setValue(properties.usernameField, username);
+        const viewModel = editorWidget.viewModel;
+        this.#getFeatureFormViewModelFromViewModel(viewModel).then(featureFormViewModel => {
+            this.#getFeatureFromFeatureFormViewModel(featureFormViewModel).then(feature => {
+                const workFlowType = viewModel.activeWorkflow.type;
+                const username = this.getUserName();
+                if (!feature || !username) {
+                    return;
                 }
+                async(() => {
+                    if (properties.creatorField && properties.creatorField !== "") {
+                        switch (workFlowType) {
+                            case "create":
+                            case "create-features":
+                                featureFormViewModel.setValue(properties.creatorField, username);
+                                break;
+                            case "update":
+                                featureFormViewModel.setValue(properties.usernameField, username);
+                                break;
+                        }
+                    } else {
+                        featureFormViewModel.setValue(properties.usernameField, username);
+                    }
+                }, 500);
+            });
+        });
+    }
 
-                //feature.setAttribute(this._properties.usernameField, username);
-                //featureFormViewModel.submit();
-                //featureFormViewModel.emit("value-change");
-            }, 500);
+    async #getFeatureFormViewModelFromViewModel(viewModel) {
+        if (viewModel.featureFormViewModel) {
+            return viewModel.featureFormViewModel;
+        }
+        return new Promise(resolve => {
+            const watcher = viewModel.watch("featureFormViewModel", () => {
+                if (viewModel.featureFormViewModel) {
+                    watcher.remove();
+                    resolve(viewModel.featureFormViewModel);
+                }
+            });
+        });
+    }
+
+    async #getFeatureFromFeatureFormViewModel(featureFormViewModel) {
+        if (featureFormViewModel.feature) {
+            return featureFormViewModel.feature;
+        }
+        return new Promise(resolve => {
+            const watcher = featureFormViewModel.watch("feature", () => {
+                if (featureFormViewModel.feature) {
+                    watcher.remove();
+                    resolve(featureFormViewModel.feature);
+                }
+            });
         });
     }
 
