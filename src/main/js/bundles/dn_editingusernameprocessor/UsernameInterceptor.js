@@ -32,9 +32,14 @@ export default class UsernameInterceptor {
         this.#watcher = null;
         const properties = this._properties;
         const viewModel = editorWidget.viewModel;
+        if (viewModel.featureFormViewModel) {
+            this.#getFeatureFromFeatureFormViewModel(viewModel.featureFormViewModel).then((feature) => {
+                this.#setUserName(feature, viewModel, viewModel.featureFormViewModel, properties);
+            });
+        }
         // Create watcher to watch for changed featureFormViewModel
         this.#watcher = viewModel.watch("featureFormViewModel", async (featureFormViewModel) => {
-            if(featureFormViewModel) {
+            if (featureFormViewModel) {
                 const feature = await this.#getFeatureFromFeatureFormViewModel(featureFormViewModel);
                 this.#setUserName(feature, viewModel, featureFormViewModel, properties);
             }
@@ -65,10 +70,10 @@ export default class UsernameInterceptor {
     }
 
     #getFeatureFromFeatureFormViewModel(featureFormViewModel) {
-        if (featureFormViewModel.feature) {
-            return featureFormViewModel.feature;
-        }
         return new Promise(resolve => {
+            if (featureFormViewModel.feature) {
+                resolve(featureFormViewModel.feature);
+            }
             const watcher = featureFormViewModel.watch("feature", () => {
                 if (featureFormViewModel.feature) {
                     watcher.remove();
