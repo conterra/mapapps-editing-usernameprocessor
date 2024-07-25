@@ -16,57 +16,64 @@
 import async from "apprt-core/async";
 
 export default class UsernameInterceptor {
+
+    #watcher = null;
+
     _userService;
     _properties = {};
 
+    deactivate() {
+        this.#watcher?.remove();
+        this.#watcher = null;
+    }
+
     interceptEditor(editorWidget) {
+        this.#watcher?.remove();
+        this.#watcher = null;
         const properties = this._properties;
         const viewModel = editorWidget.viewModel;
-        this.#getFeatureFormViewModelFromViewModel(viewModel).then(featureFormViewModel => {
-            this.#getFeatureFromFeatureFormViewModel(featureFormViewModel).then(feature => {
-                const workFlowType = viewModel.activeWorkflow.type;
-                const username = this.getUserName();
-                if (!feature || !username) {
-                    return;
-                }
-                async(() => {
-                    if (properties.creatorField && properties.creatorField !== "") {
-                        switch (workFlowType) {
-                            case "create":
-                            case "create-features":
-                                featureFormViewModel.setValue(properties.creatorField, username);
-                                break;
-                            case "update":
-                                featureFormViewModel.setValue(properties.usernameField, username);
-                                break;
-                        }
-                    } else {
-                        featureFormViewModel.setValue(properties.usernameField, username);
-                    }
-                }, 500);
-            });
-        });
-    }
-
-    async #getFeatureFormViewModelFromViewModel(viewModel) {
         if (viewModel.featureFormViewModel) {
-            return viewModel.featureFormViewModel;
-        }
-        return new Promise(resolve => {
-            const watcher = viewModel.watch("featureFormViewModel", () => {
-                if (viewModel.featureFormViewModel) {
-                    watcher.remove();
-                    resolve(viewModel.featureFormViewModel);
-                }
+            this.#getFeatureFromFeatureFormViewModel(viewModel.featureFormViewModel).then((feature) => {
+                this.#setUserName(feature, viewModel, viewModel.featureFormViewModel, properties);
             });
+        }
+        // Create watcher to watch for changed featureFormViewModel
+        this.#watcher = viewModel.watch("featureFormViewModel", async (featureFormViewModel) => {
+            if (featureFormViewModel) {
+                const feature = await this.#getFeatureFromFeatureFormViewModel(featureFormViewModel);
+                this.#setUserName(feature, viewModel, featureFormViewModel, properties);
+            }
         });
     }
 
-    async #getFeatureFromFeatureFormViewModel(featureFormViewModel) {
-        if (featureFormViewModel.feature) {
-            return featureFormViewModel.feature;
+    #setUserName(feature, viewModel, featureFormViewModel, properties) {
+        const workFlowType = viewModel.activeWorkflow.type;
+        const username = this.getUserName();
+        if (!feature || !username) {
+            return;
         }
+        async(() => {
+            if (properties.creatorField && properties.creatorField !== "") {
+                switch (workFlowType) {
+                    case "create":
+                    case "create-features":
+                        featureFormViewModel.setValue(properties.creatorField, username);
+                        break;
+                    case "update":
+                        featureFormViewModel.setValue(properties.usernameField, username);
+                        break;
+                }
+            } else {
+                featureFormViewModel.setValue(properties.usernameField, username);
+            }
+        }, 500);
+    }
+
+    #getFeatureFromFeatureFormViewModel(featureFormViewModel) {
         return new Promise(resolve => {
+            if (featureFormViewModel.feature) {
+                resolve(featureFormViewModel.feature);
+            }
             const watcher = featureFormViewModel.watch("feature", () => {
                 if (featureFormViewModel.feature) {
                     watcher.remove();
