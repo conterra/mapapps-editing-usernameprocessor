@@ -66,7 +66,7 @@ export default class UsernameInterceptor {
             } else {
                 featureFormViewModel.setValue(properties.usernameField, username);
             }
-        }, 500);
+        }, properties.setUserDelay);
     }
 
     #getFeatureFromFeatureFormViewModel(featureFormViewModel) {
