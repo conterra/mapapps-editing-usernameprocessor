@@ -700,6 +700,7 @@
                             <token>${mapapps.token}</token>
                             <useChunkedRequestEncoding>${mapapps.useChunkedRequestEncoding}</useChunkedRequestEncoding>
                             <triggerPreOptimization>${triggerPreOptimization}</triggerPreOptimization>
+                            <client.config.warnOnSlowGraphicsPerformance>false</client.config.warnOnSlowGraphicsPerformance>
                         </configuration>
                     </plugin>
                     <plugin>
