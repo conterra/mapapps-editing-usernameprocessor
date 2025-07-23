@@ -3,8 +3,7 @@
 This bundle registers an EditorInterceptor that provides the current username to the editing bundle.
 
 ## Sample App
-
-https://demos.conterra.de/mapapps/resources/apps/downloads_editing_usernameprocessor4/index.html
+https://demos.conterra.de/mapapps/resources/apps/public_demo_editingusernameprocessor/index.html
 
 ## Installation Guide
 
