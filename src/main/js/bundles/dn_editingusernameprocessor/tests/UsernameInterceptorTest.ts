@@ -16,7 +16,7 @@
 
 import UsernameInterceptor from "../UsernameInterceptor";
 import UserServiceMock from "./UserServiceMock";
-import Accessor from "esri/core/Accessor";
+import Accessor from "@arcgis/core/core/Accessor";
 import { assert } from "chai";
 
 describe(module.id, () => {
