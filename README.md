@@ -1,3 +1,6 @@
+[![devnet-bundle-snapshot](https://github.com/conterra/mapapps-editing-usernameprocessor/actions/workflows/devnet-bundle-snapshot.yml/badge.svg)](https://github.com/conterra/mapapps-editing-usernameprocessor/actions/workflows/devnet-bundle-snapshot.yml)
+![Static Badge](https://img.shields.io/badge/requires_map.apps-4.20.0-e5e5e5?labelColor=%233E464F&logoColor=%23e5e5e5)
+![Static Badge](https://img.shields.io/badge/tested_for_map.apps-4.20.0-%20?labelColor=%233E464F&color=%232FC050)
 # mapapps-editing-usernameprocessor
 
 This bundle registers an EditorInterceptor that provides the current username to the editing bundle.
@@ -5,13 +8,7 @@ This bundle registers an EditorInterceptor that provides the current username to
 ## Sample App
 https://demos.conterra.de/mapapps/resources/apps/public_demo_editingusernameprocessor/index.html
 
-## Installation Guide
 
-**Requirements:**
-
-- map.apps 4.9.0 or later
-
-Simply add the bundle "dn_editingusernameprocessor" to your app.
 
 [dn_editingusernameprocessor Documentation](https://github.com/conterra/mapapps-editing-usernameprocessor/tree/master/src/main/js/bundles/dn_editingusernameprocessor)
 

@@ -107,6 +107,11 @@
                 ],
                 "map": {
                     "layers": [
+                         {
+                            "title": "Feldnotizen",
+                            "type": "AGS_FEATURE",
+                            "url": "https://services.arcgis.com/ObdAEOfl1Z5LP2D0/arcgis/rest/services/Feldnotizen_erfassen/FeatureServer/2"
+                        },
                         {
                             "id": "editing",
                             "type": "AGS_FEATURE",

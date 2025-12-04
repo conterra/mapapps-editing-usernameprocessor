@@ -6,8 +6,8 @@
     "vendor": "con terra GmbH",
     "productName": "devnet-mapapps-editing-usernameprocessor",
     "dependencies": {
-        "editing": "^4.9.0",
-        "authentication": "^4.9.0"
+        "editing": "^4.20.0",
+        "authentication": "^4.20.0"
     },
     "components": [
         {
